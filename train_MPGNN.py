@@ -49,18 +49,18 @@ if __name__ == '__main__':
             comb_path = join(run_path, comb_string)
             makedirs(comb_path, exist_ok=True)
 
-            device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
             print(f'Running on device: {device}')
 
-            train_dataset = [data.to(device) for data in train_dataset]
+            #train_dataset = [data.to(device) for data in train_dataset]
             train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size)
 
-            test_dataset = [data.to(device) for data in test_dataset]
+            #test_dataset = [data.to(device) for data in test_dataset]
             test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size)
 
 
             model = MPGNN(dataset=G, num_layers=graph_conv_layers, dropout=dropout, num_neurons=num_neurons, k=k)
-            model = model.to(device)
+            #model = model.to(device)
 
             optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
             criterion = torch.nn.CrossEntropyLoss()
@@ -80,6 +80,7 @@ if __name__ == '__main__':
                 loss_train, loss_test = 0, 0
                 model.train()
                 for batch in train_loader:
+                    batch = batch.to(device)
                     pred = model(batch)
                     class_pred, class_real = pred.argmax(dim=1), batch.y.argmax(dim=1)
 
@@ -107,6 +108,7 @@ if __name__ == '__main__':
                 model.eval()
                 with torch.no_grad():
                     for batch in test_loader:
+                        batch = batch.to(device)
                         pred = model(batch)
                         class_pred, class_real = pred.argmax(dim=1), batch.y.argmax(dim=1)
 
