@@ -105,7 +105,9 @@ def best_metric_on_set(df, ds_name, model, metric='loss', set='train'):
         else:
             avg_best = comb_df.loc[(comb_df[on_metric] == comb_df[on_metric].max())]
 
+        avg_best = avg_best.copy()
         avg_best['type_best'] = f'best_{on_metric}'
+        #avg_best.loc[:, 'type_best'] = f'best_{on_metric}'
         best_df = pd.concat([best_df, avg_best])
 
     ascending = True if metric == 'loss' else False
@@ -125,8 +127,7 @@ def plot_confusion_matrix(prefix_results, ds_activities, epoch_path, set):
 
     true_labels = prefix_results["y_real"].replace(activity_names)
     predicted_labels = prefix_results["y_estimated"].replace(activity_names)
-
-    cm = confusion_matrix(true_labels, predicted_labels)
+    cm = confusion_matrix(true_labels.astype(str), predicted_labels.astype(str))
     cmd = ConfusionMatrixDisplay(cm)
 
     cmd.plot(cmap=plt.cm.Blues, xticks_rotation=45)

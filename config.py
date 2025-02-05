@@ -28,23 +28,35 @@ def get_result_path(ds_name, model):
 SEED = 42
 TRAIN_SPLIT = 0.67
 PATIENCE = 20
+THRESHOLD=1
+NO_REPEAT=True
 EPOCH = [200]
-BATCH_SIZE = [64]
-LEARNING_RATE = [1e-2, 1e-3, 1e-4]
-DROPOUT = [0.1, 0.2]
-# ----------
 
+BATCH_SIZE = [64]
+
+#PROVE PROF
+#LEARNING_RATE = [1e-2, 1e-3, 1e-4]
+#DROPOUT = [0.1, 0.2]
+
+#PROVE MIE
+LEARNING_RATE = [1e-4, 1e-3]
+DROPOUT = [0.2, 0.1]
+
+# ----------
 
 # MODEL PARAMETERS
 
-# il numero di layer convoluzionali
-GRAPH_CONV_LAYERS = [2, 3, 5, 7]
+#PROVE PROF
+#GRAPH_CONV_LAYERS = [2,3,5,7]
+#NUM_NEURONS = [32,64]
+#K_VALUES = [3, 5, 7, 30]
 
-# numero di neuroni per layer convoluzionale
-NUM_NEURONS = [64]
 
-# il numero di nodi selezionati dal sort pooling
-K_VALUES = [3, 5, 7, 30]
+#PROVA MIA
+GRAPH_CONV_LAYERS = [2,5,7]
+NUM_NEURONS = [64,128]
+K_VALUES = [3,7,10]
+
 
 GRID_COMBINATIONS = []
 for batch_size in BATCH_SIZE:
